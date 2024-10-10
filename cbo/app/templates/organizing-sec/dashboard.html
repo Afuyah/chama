@@ -1,0 +1,54 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome, {{ current_user.name }}</h1>
+    <p>This is the Organizing Secretary's dashboard. Here you can manage attendance and member discipline.</p>
+</div>
+
+<!-- Action Buttons for the Organizing Secretary -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Record Attendance</h5>
+                <p class="card-text">Mark attendance and impose fines for lateness or absenteeism.</p>
+                <a href="{{ url_for('organizing_secretary.record_attendance') }}" class="btn btn-primary">Record Attendance</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">View Attendance Records</h5>
+                <p class="card-text">View and manage attendance records for previous meetings.</p>
+                <a href="{{ url_for('organizing_secretary.view_attendance') }}" class="btn btn-primary">View Records</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Attendance Records -->
+<h3>Recent Attendance</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Member</th>
+            <th>Status</th>
+            <th>Fine (if any)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attendance in attendances %}
+        <tr>
+            <td>{{ attendance.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ attendance.member.name }}</td>
+            <td>{{ attendance.status }}</td>
+            <td>{{ attendance.fine_amount if attendance.fine_amount else 'N/A' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

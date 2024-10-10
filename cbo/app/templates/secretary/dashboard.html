@@ -1,0 +1,83 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome, {{ current_user.name }}</h1>
+    <p>This is the Secretary's dashboard. Here you can manage member records, attendance, and event details.</p>
+</div>
+
+<!-- Secretary Action Buttons -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Manage Member Records</h5>
+                <p class="card-text">View, edit, and add member details, including contact information, and other records.</p>
+                <a href="{{ url_for('secretary.manage_members') }}" class="btn btn-primary">Manage Members</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Record Attendance</h5>
+                <p class="card-text">Mark attendance for meetings and track lateness and absenteeism.</p>
+                <a href="{{ url_for('secretary.record_attendance') }}" class="btn btn-primary">Record Attendance</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Member Details -->
+<h3>Recent Member Details</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>ID</th>
+            <th>Residence</th>
+            <th>County</th>
+            <th>Gender</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in members %}
+        <tr>
+            <td>{{ member.name }}</td>
+            <td>{{ member.phone }}</td>
+            <td>{{ member.id }}</td>
+            <td>{{ member.residence }}</td>
+            <td>{{ member.county }}</td>
+            <td>{{ member.gender }}</td>
+            <td>{{ member.age }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Recent Attendance Records -->
+<h3>Recent Attendance Records</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Member</th>
+            <th>Status</th>
+            <th>Fine (if any)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attendance in attendances %}
+        <tr>
+            <td>{{ attendance.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ attendance.member.name }}</td>
+            <td>{{ attendance.status }}</td>
+            <td>{{ attendance.fine_amount if attendance.fine_amount else 'N/A' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

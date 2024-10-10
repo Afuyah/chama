@@ -1,0 +1,71 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome, {{ current_user.name }}</h1>
+    <p>This is the Treasurer's dashboard. View and manage contributions and fines.</p>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Record Contribution</h5>
+                <p class="card-text">Record member contributions for the month.</p>
+                <a href="{{ url_for('treasurer.contribution') }}" class="btn btn-primary">Record Contribution</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Record Fine</h5>
+                <p class="card-text">Record member fines for lateness or absenteeism.</p>
+                <a href="{{ url_for('treasurer.fine') }}" class="btn btn-primary">Record Fine</a>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<h3>All Contributions</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Member</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contribution in contributions %}
+        <tr>
+            <td>{{ contribution.member.name }}</td>
+            <td>{{ contribution.amount }}</td>
+            <td>{{ contribution.date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+<h3>All Fines</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Member</th>
+            <th>Reason</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fine in fines %}
+        <tr>
+            <td>{{ fine.member.name }}</td>
+            <td>{{ fine.reason }}</td>
+            <td>{{ fine.amount }}</td>
+            <td>{{ fine.date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

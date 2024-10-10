@@ -1,0 +1,54 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome, {{ current_user.name }}</h1>
+    <p>This is the Member Representative's dashboard. Here you can manage member contributions and track their finances.</p>
+</div>
+
+<!-- Member Representative Action Buttons -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Track Member Contributions</h5>
+                <p class="card-text">View and update member contributions and track financial records.</p>
+                <a href="{{ url_for('member_rep.manage_contributions') }}" class="btn btn-primary">Manage Contributions</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">View Member Information</h5>
+                <p class="card-text">Access detailed information for each member, including payment history and fines.</p>
+                <a href="{{ url_for('member_rep.view_members') }}" class="btn btn-primary">View Members</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Contributions -->
+<h3>Recent Member Contributions</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Contribution Type</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contribution in contributions %}
+        <tr>
+            <td>{{ contribution.member.name }}</td>
+            <td>{{ contribution.amount }}</td>
+            <td>{{ contribution.type }}</td>
+            <td>{{ contribution.date.strftime('%Y-%m-%d') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

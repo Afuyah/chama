@@ -1,0 +1,33 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Record Attendance</h3>
+                <form method="POST" action="{{ url_for('organizing_secretary.record_attendance') }}">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group">
+                        {{ form.member.label(class="form-label") }}
+                        {{ form.member(class="form-control") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.status.label(class="form-label") }}
+                        {{ form.status(class="form-control") }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.fine_amount.label(class="form-label") }}
+                        {{ form.fine_amount(class="form-control") }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

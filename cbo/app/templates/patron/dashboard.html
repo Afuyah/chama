@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome, {{ current_user.name }}</h1>
+    <p>This is the Patron's dashboard. Here you can oversee member activities and financial health.</p>
+</div>
+
+<!-- Patron Action Buttons -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">View Financial Reports</h5>
+                <p class="card-text">Access contributions and fines reports for all members.</p>
+                <a href="{{ url_for('patron.view_reports') }}" class="btn btn-primary">View Reports</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Send Announcements</h5>
+                <p class="card-text">Communicate important messages to all members.</p>
+                <a href="{{ url_for('patron.send_announcements') }}" class="btn btn-primary">Send Announcement</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Contributions Summary -->
+<h3>Recent Contributions Summary</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Member</th>
+            <th>Total Contributions</th>
+            <th>Total Fines</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for summary in contributions_summary %}
+        <tr>
+            <td>{{ summary.member.name }}</td>
+            <td>{{ summary.total_contributions }}</td>
+            <td>{{ summary.total_fines }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

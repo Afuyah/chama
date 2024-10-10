@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Send Announcement</h3>
+                <form method="POST" action="{{ url_for('patron.send_announcements') }}">
+                    <div class="form-group">
+                        <label for="announcement">Announcement Message</label>
+                        <textarea class="form-control" id="announcement" name="announcement" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Announcement</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

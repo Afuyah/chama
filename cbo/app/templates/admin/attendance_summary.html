@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Attendance Summary</h2>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Member Name</th>
+                <th>Total Attended</th>
+                <th>Total Absent</th>
+                <th>Total Late</th>
+                <th>Attendance Percentage (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member_id, record in attendance_summary.items() %}
+            <tr>
+                <td>{{ record.name }}</td>
+                <td>{{ record.total_attended }}</td>
+                <td>{{ record.total_absent }}</td>
+                <td>{{ record.total_late }}</td>
+                <td>{{ record.attendance_percentage | round(2) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

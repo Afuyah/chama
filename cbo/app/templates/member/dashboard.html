@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome, {{ current_user.name }}</h1>
+    <p>This is your member dashboard. Here you can manage your profile, view attendance, and check financial records.</p>
+</div>
+
+<!-- Action Buttons -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Manage Profile</h5>
+                <p class="card-text">Update your personal information.</p>
+                <a href="{{ url_for('member.manage_profile') }}" class="btn btn-primary">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">View Attendance</h5>
+                <p class="card-text">Check your attendance records.</p>
+                <a href="{{ url_for('member.view_attendance') }}" class="btn btn-primary">View Attendance</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Financial Records</h5>
+                <p class="card-text">View your contributions and fines.</p>
+                <a href="{{ url_for('member.view_financials') }}" class="btn btn-primary">View Financials</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

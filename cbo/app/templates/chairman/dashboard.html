@@ -1,0 +1,37 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome, {{ current_user.name }}</h1>
+    <p>This is the Chairman's dashboard. From here you can manage members and monitor CBO activities.</p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add a New Member</h5>
+                <p class="card-text">You can add new members to the CBO.</p>
+                <a href="{{ url_for('chairman.add_member') }}" class="btn btn-primary">Add Member</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">View Members</h5>
+                <p class="card-text">Manage current members.</p>
+                <a href="#" class="btn btn-primary">View Members</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Manage Events</h5>
+                <p class="card-text">Declare and manage important CBO events.</p>
+                <a href="#" class="btn btn-primary">Manage Events</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

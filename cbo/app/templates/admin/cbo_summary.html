@@ -1,0 +1,22 @@
+@admin_bp.route('/attendance_summary')
+@login_required
+def attendance_summary():
+    members = Member.query.all()
+    attendance_summary = {}
+    total_meetings = Meeting.query.count()  # Total meetings held
+
+    for member in members:
+        attendance_records = Attendance.query.filter_by(member_id=member.id).all()
+        total_attended = sum(1 for record in attendance_records if record.status == 'Present')
+        total_absent = sum(1 for record in attendance_records if record.status == 'Absent')
+        total_late = sum(1 for record in attendance_records if record.status == 'Late')
+        
+        attendance_summary[member.id] = {
+            'name': member.name,
+            'total_attended': total_attended,
+            'total_absent': total_absent,
+            'total_late': total_late,
+            'attendance_percentage': (total_attended / total_meetings * 100) if total_meetings > 0 else 0,
+        }
+
+    return render_template('admin/attendance_summary.html', attendance_summary=attendance_summary)

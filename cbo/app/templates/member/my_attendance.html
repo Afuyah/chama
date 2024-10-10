@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Your Attendance Summary</h2>
+    <h4>Total Meetings Attended: {{ total_attended }}</h4>
+    <h4>Total Absent: {{ total_absent }}</h4>
+    <h4>Total Late: {{ total_late }}</h4>
+    <h4>Attendance Percentage: {{ attendance_percentage | round(2) }}%</h4>
+
+    <h5>Attendance Records</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+            <tr>
+                <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ record.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
