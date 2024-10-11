@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unauthorized Access</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> <!-- External CSS if available -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container d-flex align-items-center justify-content-center vh-100">
+        <div class="text-center p-5 shadow-lg rounded bg-white">
+            <div class="mb-4">
+                <img src="{{ url_for('static', filename='images/unauthorized.svg') }}" alt="Access Denied" width="150"> <!-- Optional: Add an SVG or image for more appeal -->
+            </div>
+            <h1 class="text-danger display-4">Unauthorized</h1>
+            <p class="lead">You do not have permission to access this page.</p>
+            <p>If you think this is a mistake, please contact the administrator for assistance.</p>
+            <a href="{{ url_for('member.dashboard') }}" class="btn btn-primary mt-3">Return to Dashboard</a>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background-color: #f0f2f5;  /* Light background for contrast */
+            font-family: 'Helvetica', sans-serif;
+        }
+        .container {
+            max-width: 500px;
+        }
+        .shadow-lg {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        h1 {
+            font-weight: 700;
+        }
+        .btn {
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</body>
+</html>

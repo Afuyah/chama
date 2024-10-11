@@ -1,39 +1,80 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-<div class="jumbotron text-center">
-    <h1>Welcome, {{ current_user.name }}</h1>
-    <p>This is your member dashboard. Here you can manage your profile, view attendance, and check financial records.</p>
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Welcome, {{ current_user.name }}!</h1>
+        <p class="lead">Manage your profile, view your attendance, and check your financial records all in one place.</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="icon mb-3">
+                        <i class="bi bi-person-circle" style="font-size: 2rem; color: #007bff;"></i>
+                    </div>
+                    <h5 class="card-title">Manage Profile</h5>
+                    <p class="card-text">Keep your personal information up to date.</p>
+                    <a href="{{ url_for('member.manage_profile') }}" class="btn btn-primary">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="icon mb-3">
+                        <i class="bi bi-calendar-check" style="font-size: 2rem; color: #28a745;"></i>
+                    </div>
+                    <h5 class="card-title">View Attendance</h5>
+                    <p class="card-text">Check your past and current attendance records.</p>
+                    <a href="{{ url_for('member.view_attendance') }}" class="btn btn-success">View Attendance</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="icon mb-3">
+                        <i class="bi bi-cash-coin" style="font-size: 2rem; color: #ffc107;"></i>
+                    </div>
+                    <h5 class="card-title">Financial Records</h5>
+                    <p class="card-text">Review your contributions, loans, and fines.</p>
+                    <a href="{{ url_for('member.view_financials') }}" class="btn btn-warning text-white">View Financials</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Action Buttons -->
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Manage Profile</h5>
-                <p class="card-text">Update your personal information.</p>
-                <a href="{{ url_for('member.manage_profile') }}" class="btn btn-primary">Edit Profile</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">View Attendance</h5>
-                <p class="card-text">Check your attendance records.</p>
-                <a href="{{ url_for('member.view_attendance') }}" class="btn btn-primary">View Attendance</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Financial Records</h5>
-                <p class="card-text">View your contributions and fines.</p>
-                <a href="{{ url_for('member.view_financials') }}" class="btn btn-primary">View Financials</a>
-            </div>
-        </div>
-    </div>
-</div>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon {
+        font-size: 2rem;
+    }
+
+    .card-title {
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+    }
+    
+    .lead {
+        color: #6c757d;
+    }
+</style>
+
 {% endblock %}

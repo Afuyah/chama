@@ -1,1 +1,115 @@
+{% extends 'layouts/base.html' %}
 
+{% block title %}Welcome to Sweet Potato & Arrow Roots CBO{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero text-center py-5" style="background-image: url('{{ url_for('static', filename='images/hero-bg.jpg') }}'); background-size: cover; color: white;">
+    <h1 class="display-4">Sweet Potato & Arrow Roots CBO!</h1>
+    <p class="lead">Empowering our community through collective efforts.</p>
+    <a href="{{ url_for('main.login') }}" class="btn btn-light btn-lg">Login</a>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Announcements Carousel -->
+        <div class="col-md-6 mb-4">
+            <h3 class="text-center">Announcements</h3>
+            <div id="announcementCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-bullhorn"></i> New Member Registration</h5>
+                                <p class="card-text">Registration is open for new members. Join us today!</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Monthly Meeting</h5>
+                                <p class="card-text">Join us for our next meeting next Friday.</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#announcementCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#announcementCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Next Meeting Section -->
+        <div class="col-md-6 mb-4">
+            <h3 class="text-center">Next Meeting</h3>
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4>Friday, October 20, 2024</h4>
+                    <p>Location: Community Hall</p>
+                    <p>Time: 2:00 PM</p>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Get Involved Section -->
+    <div class="text-center mt-5">
+        <h2>Get Involved!</h2>
+        <p>If you want to make a difference in our community, join us!</p>
+        <a href="{{ url_for('main.login') }}" class="btn btn-warning btn-lg">Join Now</a>
+    </div>
+</div>
+
+<style>
+    .hero {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+    }
+
+    .card {
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .btn {
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #ffc107;
+        color: white;
+    }
+</style>
+
+<script>
+    // Countdown Timer
+    const countDownDate = new Date("October 20, 2024 14:00:00").getTime();
+    const countdownFunction = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        
+        document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m ";
+        
+        if (distance < 0) {
+            clearInterval(countdownFunction);
+            document.getElementById("countdown").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+</script>
+{% endblock %}

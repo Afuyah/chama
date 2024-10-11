@@ -1,10 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SelectMultipleField, TextAreaField
+from wtforms import StringField, SelectField, SelectMultipleField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired
 
 class AttendanceForm(FlaskForm):
-    members = SelectMultipleField('Members', coerce=int, validators=[DataRequired()])
-    status = SelectField('Status', choices=[('present', 'Present'), ('absent', 'Absent'), ('late', 'Late')], validators=[DataRequired()])
+    members = SelectMultipleField('Members', coerce=int)  # A list of member IDs
+    status = SelectField('Attendance Status', choices=[('Present', 'Present'), ('Absent', 'Absent'), ('Late', 'Late')], validators=[DataRequired()])
+    submit = SubmitField('Record Attendance')
+
 
 class EventForm(FlaskForm):
     name = StringField('Event Name', validators=[DataRequired()])

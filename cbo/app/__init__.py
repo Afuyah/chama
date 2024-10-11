@@ -24,22 +24,26 @@ def create_app():
     # Load User Loader for Flask-Login
     @login_manager.user_loader
     def load_user(user_id):
-        from .models import User  # Import User model
-        return User.query.get(int(user_id))
+        from .models import Member  # Import User model
+        return Member.query.get(int(user_id))
 
     # Register blueprints for different roles
-    from .org.chairman import chairman_bp
-    from .org.secretary import secretary_bp
-    from .org.treasurer import treasurer_bp
-    from .org.organizing_secretary import organizing_secretary_bp
-    from .org.member_rep import member_representative_bp
-    from .org.patron import patron_bp
+    from .org.chairman.routes import chairman_bp
+    from .org.main.routes import main_bp
+    from .org.member.routes import member_bp
+    from .org.secretary.routes import secretary_bp
+    from .org.treasurer.routes import treasurer_bp
+    from .org.organizing_sec.routes import organizing_secretary_bp
+    from .org.member_rep.routes import member_rep_bp
+    from .org.patron.routes import patron_bp
 
+    app.register_blueprint(main_bp)
     app.register_blueprint(chairman_bp, url_prefix='/chairman')
+    app.register_blueprint(member_bp, url_prefix='/member')
     app.register_blueprint(secretary_bp, url_prefix='/secretary')
     app.register_blueprint(treasurer_bp, url_prefix='/treasurer')
     app.register_blueprint(organizing_secretary_bp, url_prefix='/organizing_secretary')
-    app.register_blueprint(member_representative_bp, url_prefix='/member_representative')
+    app.register_blueprint(member_rep_bp, url_prefix='/member_rep')
     app.register_blueprint(patron_bp, url_prefix='/patron')
 
     return app

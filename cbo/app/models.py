@@ -1,40 +1,85 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, FloatField, DateTimeField, SubmitField
-from wtforms.validators import DataRequired, Length, NumberRange, Optional, EqualTo
+from datetime import datetime
+from flask_login import UserMixin
+from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
-class RegistrationForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(max=100)])
-    phone_number = StringField('Phone Number', validators=[DataRequired(), Length(max=15)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=128)])
-    residence = StringField('Residence', validators=[DataRequired(), Length(max=100)])
-    county = StringField('County', validators=[DataRequired(), Length(max=100)])
-    gender = SelectField('Gender', choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
-    age = FloatField('Age', validators=[DataRequired(), NumberRange(min=1)])
-    role = SelectField('Role', choices=[('Chairman', 'Chairman'), 
-                                         ('Secretary', 'Secretary'), 
-                                         ('Organizing Secretary', 'Organizing Secretary'), 
-                                         ('Treasurer', 'Treasurer'), 
-                                         ('Member Representative', 'Member Representative'),
-                                         ('Member', 'Member')], validators=[DataRequired()])
-    submit = SubmitField('Register')
+class Role(db.Model):
+    __tablename__ = 'roles'
 
-class LoginForm(FlaskForm):
-    phone_number = StringField('Phone Number', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
 
-class ContributionForm(FlaskForm):
-    amount = FloatField('Contribution Amount', validators=[DataRequired(), NumberRange(min=1)])
-    date = DateTimeField('Date', default=datetime.utcnow, format='%Y-%m-%d', validators=[Optional()])
-    submit = SubmitField('Submit Contribution')
+    members = db.relationship('Member', backref='role', lazy=True)
 
-class FineForm(FlaskForm):
-    amount = FloatField('Fine Amount', validators=[DataRequired(), NumberRange(min=1)])
-    reason = StringField('Reason', validators=[Optional(), Length(max=200)])
-    date = DateTimeField('Date', default=datetime.utcnow, format='%Y-%m-%d', validators=[Optional()])
-    submit = SubmitField('Submit Fine')
+    def __repr__(self):
+        return f'<Role {self.name}>'
 
-class AttendanceForm(FlaskForm):
-    status = SelectField('Attendance Status', choices=[('Present', 'Present'), ('Absent', 'Absent'), ('Late', 'Late')], validators=[DataRequired()])
-    date = DateTimeField('Date', default=datetime.utcnow, format='%Y-%m-%d', validators=[Optional()])
-    submit = SubmitField('Submit Attendance')
+class Member(db.Model, UserMixin):
+    __tablename__ = 'members'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    phone_number = db.Column(db.String(15), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    residence = db.Column(db.String(100), nullable=False)
+    county = db.Column(db.String(100), nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=True)
+    join_date =db.Column(db.DateTime, default=datetime.utcnow)
+    contributions = db.relationship('Contribution', backref='contributor', lazy='dynamic')
+    fines = db.relationship('Fine', backref='fined_member', lazy='dynamic')
+    attendance_records = db.relationship('Attendance', backref='attendee', lazy='dynamic')
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+class Contribution(db.Model):
+    __tablename__ = 'contributions'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    member_id = db.Column(db.Integer, db.ForeignKey('members.id'), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Fine(db.Model):
+    __tablename__ = 'fines'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    member_id = db.Column(db.Integer, db.ForeignKey('members.id'), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    reason = db.Column(db.String(200))
+
+class Attendance(db.Model):
+    __tablename__ = 'attendance'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    member_id = db.Column(db.Integer, db.ForeignKey('members.id'), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(10), nullable=False)
+
+
+class Meeting(db.Model):
+    __tablename__ = 'meetings'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime, nullable=False)
+    minutes = db.Column(db.Text)  
+    
+    def __repr__(self):
+        return f'<Meeting {self.date}>'
+
+class Event(db.Model):
+    __tablename__ = 'events'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Event {self.name} on {self.date}>'

@@ -13,7 +13,7 @@ member_rep_bp = Blueprint('member_rep', __name__)
 @login_required
 def dashboard():
     if current_user.role != 'member_rep':
-        return redirect(url_for('unauthorized'))
+        return redirect(url_for('main.unauthorized'))
 
     contributions = Contribution.query.order_by(Contribution.date.desc()).limit(10).all()
     return render_template('member_rep/dashboard.html', contributions=contributions, title="Member Representative Dashboard")

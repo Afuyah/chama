@@ -5,7 +5,9 @@
     <h1>Welcome, {{ current_user.name }}</h1>
     <p>This is the Chairman's dashboard. From here you can manage members and monitor CBO activities.</p>
 </div>
+
 <div class="row">
+    <!-- Add New Member -->
     <div class="col-md-4">
         <div class="card">
             <div class="card-body">
@@ -15,21 +17,25 @@
             </div>
         </div>
     </div>
+
+    <!-- View Members -->
     <div class="col-md-4">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">View Members</h5>
                 <p class="card-text">Manage current members.</p>
-                <a href="#" class="btn btn-primary">View Members</a>
+                <a href="{{ url_for('chairman.view_members') }}" class="btn btn-primary">View Members</a>
             </div>
         </div>
     </div>
+
+    <!-- Manage Events -->
     <div class="col-md-4">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Manage Events</h5>
                 <p class="card-text">Declare and manage important CBO events.</p>
-                <a href="#" class="btn btn-primary">Manage Events</a>
+                <a href="{{ url_for('chairman.manage_events') }}" class="btn btn-primary">Manage Events</a>
             </div>
         </div>
     </div>

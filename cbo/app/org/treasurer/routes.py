@@ -13,7 +13,7 @@ treasurer_bp = Blueprint('treasurer', __name__)
 @login_required
 def dashboard():
     if current_user.role != 'treasurer':
-        return redirect(url_for('unauthorized'))
+        return redirect(url_for('main.unauthorized'))
     contributions = Contribution.query.all()
     fines = Fine.query.all()
     return render_template('treasurer/dashboard.html', title="Treasurer's Dashboard", contributions=contributions, fines=fines)
