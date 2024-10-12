@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 805f4766855c
+Revision ID: 7dcd4797d8ee
 Revises: 
-Create Date: 2024-10-11 01:39:29.583082
+Create Date: 2024-10-12 13:06:37.767450
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '805f4766855c'
+revision = '7dcd4797d8ee'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,6 +23,13 @@ def upgrade():
     sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('description', sa.Text(), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=True),
+    sa.Column('event_type', sa.String(length=50), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('fine_types',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=50), nullable=False),
+    sa.Column('amount', sa.Float(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('meetings',
@@ -34,6 +41,7 @@ def upgrade():
     op.create_table('roles',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
+    sa.Column('permissions', sa.String(length=200), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
@@ -46,7 +54,8 @@ def upgrade():
     sa.Column('county', sa.String(length=100), nullable=False),
     sa.Column('gender', sa.String(length=10), nullable=False),
     sa.Column('age', sa.Integer(), nullable=False),
-    sa.Column('role_id', sa.Integer(), nullable=False),
+    sa.Column('role_id', sa.Integer(), nullable=True),
+    sa.Column('join_date', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['role_id'], ['roles.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('phone_number')
@@ -54,8 +63,10 @@ def upgrade():
     op.create_table('attendance',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('member_id', sa.Integer(), nullable=False),
+    sa.Column('meeting_id', sa.Integer(), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=True),
-    sa.Column('status', sa.String(length=10), nullable=False),
+    sa.Column('status', sa.Enum('Present', 'Late', 'Absent', name='attendance_status'), nullable=False),
+    sa.ForeignKeyConstraint(['meeting_id'], ['meetings.id'], ),
     sa.ForeignKeyConstraint(['member_id'], ['members.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -70,9 +81,11 @@ def upgrade():
     op.create_table('fines',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('member_id', sa.Integer(), nullable=False),
+    sa.Column('fine_type_id', sa.Integer(), nullable=False),
     sa.Column('amount', sa.Float(), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=True),
     sa.Column('reason', sa.String(length=200), nullable=True),
+    sa.ForeignKeyConstraint(['fine_type_id'], ['fine_types.id'], ),
     sa.ForeignKeyConstraint(['member_id'], ['members.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -87,5 +100,6 @@ def downgrade():
     op.drop_table('members')
     op.drop_table('roles')
     op.drop_table('meetings')
+    op.drop_table('fine_types')
     op.drop_table('events')
     # ### end Alembic commands ###

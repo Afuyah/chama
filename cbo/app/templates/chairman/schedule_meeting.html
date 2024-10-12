@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+<h1>{{ title }}</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.date.label }} {{ form.date() }}
+    </div>
+    <div>
+        {{ form.minutes.label }} {{ form.minutes() }}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock %}

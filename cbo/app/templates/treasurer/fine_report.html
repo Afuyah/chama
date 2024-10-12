@@ -1,0 +1,25 @@
+{% extends "base_reports.html" %}
+
+{% block content %}
+    <h2>Fine Report ({{ fines|length }} records)</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Member</th>
+                <th>Reason</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fine in fines %}
+                <tr>
+                    <td>{{ fine.member.name }}</td>
+                    <td>{{ fine.reason }}</td>
+                    <td>{{ fine.amount }}</td>
+                    <td>{{ fine.date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

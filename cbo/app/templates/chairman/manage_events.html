@@ -1,0 +1,43 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+<h1>{{ title }}</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.name.label }} {{ form.name() }}
+    </div>
+    <div>
+        {{ form.description.label }} {{ form.description() }}
+    </div>
+    <div>
+        {{ form.date.label }} {{ form.date() }}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+
+<h2>Existing Events</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in events %}
+        <tr>
+            <td>{{ event.name }}</td>
+            <td>{{ event.date }}</td>
+            <td>
+                <form action="{{ url_for('chairman.delete_event', event_id=event.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base_reports.html" %}
+
+{% block content %}
+    <h2>Attendance Report ({{ attendance|length }} records)</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Member</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance %}
+                <tr>
+                    <td>{{ record.member.name }}</td>
+                    <td>{{ record.status }}</td>
+                    <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

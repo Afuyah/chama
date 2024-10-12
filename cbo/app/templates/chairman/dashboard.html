@@ -39,5 +39,16 @@
             </div>
         </div>
     </div>
+
+
+<h1>{{ title }}</h1>
+<p>Total Members: {{ total_members }}</p>
+<p>Total Contributions: Ksh {{ total_contributions }}</p>
+<a href="{{ url_for('chairman.add_member') }}">Add Member</a>
+<a href="{{ url_for('chairman.view_members') }}">View Members</a>
+<a href="{{ url_for('chairman.view_contributions') }}">View Contributions</a>
+<a href="{{ url_for('chairman.manage_events') }}">Manage Events</a>
+<a href="{{ url_for('chairman.schedule_meeting') }}">Schedule Meeting</a>
+
 </div>
 {% endblock %}

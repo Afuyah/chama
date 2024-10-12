@@ -1,0 +1,23 @@
+{% extends "base_reports.html" %}
+
+{% block content %}
+    <h2>Contribution Report ({{ contributions|length }} records)</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Member</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contribution in contributions %}
+                <tr>
+                    <td>{{ contribution.member.name }}</td>
+                    <td>{{ contribution.amount }}</td>
+                    <td>{{ contribution.date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
